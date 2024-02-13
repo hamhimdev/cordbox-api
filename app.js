@@ -1,16 +1,22 @@
-const express = require('express');
-const axios = require('axios');
+import express from 'express';
+import axios from 'axios';
+
 const app = express();
 
 const getPresence = async (xuid) => {
     const response = await axios.get(`https://userpresence.xboxlive.com/users/xuid(${xuid})`, {
         headers: {
-            'x-xbl-contract-version': '1'
+            'x-xbl-contract-version': '1',
+            'Accept': 'application/json',
+            'Accept-Language': 'en-US',
+            'Host': 'localhost',
+            'Authorization': `XBL3.0 x=${userhash};${token}`
         }
     });
 
     return response.data;
 };
+
 app.get('/presence/:xuid', async (req, res) => {
     try {
         const xuid = req.params.xuid;
